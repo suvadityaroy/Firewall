@@ -1,0 +1,17 @@
+# Python Firewall Dependencies
+# Core dependencies (optional for enhanced features)
+
+# For webhook alerts (optional)
+requests>=2.31.0
+
+# Note: All other features use Python standard library only
+# - logging: built-in
+# - configparser: built-in
+# - ipaddress: built-in
+# - argparse: built-in
+# - json, csv, collections: built-in
+# - smtplib, email: built-in
+
+# Development dependencies (optional)
+# pytest>=7.4.0
+# pylint>=2.17.0

@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "threshold": 10,
+  "email": {
+    "enabled": false,
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "from_email": "your-email@gmail.com",
+    "to_email": "alert-recipient@gmail.com",
+    "password": "your-app-password"
+  },
+  "webhook": {
+    "enabled": false,
+    "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+  },
+  "console_alerts": true
+}
