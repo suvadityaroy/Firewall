@@ -1,4 +1,4 @@
-# 🔥 Firewall (Python) — Features, Tech Stack, How It Works, and Proofs
+# 🔥 Firewall
 
 ![Last Commit](https://img.shields.io/github/last-commit/suvadityaroy/Firewall?style=for-the-badge)
 ![Latest Tag](https://img.shields.io/github/v/tag/suvadityaroy/Firewall?sort=semver&style=for-the-badge)
