@@ -9,36 +9,11 @@ This project implements a simple, rules-driven software firewall in Python. It p
 
 ## ✨ Features
 
-- **🔍 Intelligent Packet Analysis**
-  - Hex-formatted packet parsing from captured logs (TCP/UDP)
-  - Automatic protocol detection via byte inspection
-  - MAC-based direction classification (inbound/outbound)
-  - Real-time packet-by-packet decision tracing
-
-- **🎯 Advanced Rule Engine**
-  - INI-based policy configuration with `Accept`, `Decline`, `Reject` actions
-  - Port ranges support (e.g., `8000-9000`)
-  - Wildcard IP matching (e.g., `192.168.1.*`)
-  - CIDR notation for network blocks (e.g., `10.0.0.0/24`)
-  - Dynamic rule reloading without restart
-
-- **📊 Comprehensive Monitoring**
-  - Timestamped logging with separate files for accepted/rejected/declined packets
-  - Real-time statistics tracking by IP, port, and protocol
-  - Suspicious IP detection and tracking
-  - JSON/CSV export for trend analysis
-
-- **🚨 Smart Alerting**
-  - Configurable threshold-based alerts (default: 10 blocks)
-  - Multiple notification channels: console, email (SMTP), webhooks
-  - Automatic suspicious activity detection
-  - Customizable via JSON configuration
-
-- **💻 Flexible CLI**
-  - Process TCP or UDP packets on demand
-  - Custom packet file support
-  - Toggle features individually (logging, stats, alerts)
-  - Full help documentation built-in
+- **🔍 Smart Packet Analysis** - TCP/UDP protocol detection, MAC-based direction classification, real-time tracing
+- **🎯 Advanced Rules** - Port ranges, wildcards, CIDR notation, dynamic reloading
+- **📊 Monitoring & Stats** - Timestamped logs, suspicious IP tracking, JSON/CSV export
+- **🚨 Alerts** - Console/email/webhook notifications for suspicious activity
+- **💻 CLI Interface** - Toggle features, process TCP/UDP, custom packet files
 
 ## 🛠️ Tech Stack
 
