@@ -1,5 +1,10 @@
 # Firewall (Python) — Features, Tech Stack, How It Works, and Proofs
 
+![Last Commit](https://img.shields.io/github/last-commit/suvadityaroy/Firewall?style=for-the-badge)
+![Latest Tag](https://img.shields.io/github/v/tag/suvadityaroy/Firewall?sort=semver&style=for-the-badge)
+![Repo Size](https://img.shields.io/github/repo-size/suvadityaroy/Firewall?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge)
+
 This project implements a simple, rules-driven software firewall in Python. It parses captured TCP/UDP packets, determines direction (inbound/outbound) via MAC address, and applies policy from INI configuration to accept, decline, or reject traffic.
 
 ## Features
@@ -142,7 +147,3 @@ These outputs reflect the rule engine decisions given the current INI configurat
 
 - Packet text format must match the expected positions; malformed lines may cause parsing errors (e.g., `IndexError`). Trim or standardize your captures if needed.
 - The demo currently reads `packets/tcp.txt` in `main.py`. UDP handling is implemented in `src` but not wired in the demo entry.
-
-## License
-
-Academic/educational sample. No warranty.
