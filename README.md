@@ -1,4 +1,4 @@
-# Firewall (Python) — Features, Tech Stack, How It Works, and Proofs
+# 🔥 Firewall (Python) — Features, Tech Stack, How It Works, and Proofs
 
 ![Last Commit](https://img.shields.io/github/last-commit/suvadityaroy/Firewall?style=for-the-badge)
 ![Latest Tag](https://img.shields.io/github/v/tag/suvadityaroy/Firewall?sort=semver&style=for-the-badge)
@@ -7,41 +7,41 @@
 
 This project implements a simple, rules-driven software firewall in Python. It parses captured TCP/UDP packets, determines direction (inbound/outbound) via MAC address, and applies policy from INI configuration to accept, decline, or reject traffic.
 
-## Features
+## ✨ Features
 
-### Core Features
-- **Packet parsing**: Reads hex-formatted fields from captured packet logs ([packets/tcp.txt](packets/tcp.txt), [packets/udp.txt](packets/udp.txt)).
-- **Protocol detection**: Uses the 23rd byte to identify TCP (`06`) vs UDP (`11`).
-- **Direction detection**: Compares packet MAC to local MAC to classify packets as outbound or inbound.
-- **Rule engine**: INI-based policies for `Accept`, `Decline`, `Reject` per IP and port for inbound and outbound traffic.
-- **Verbose tracing**: Prints per-packet decisions for source/destination endpoints and overall transmission success/failure.
+### 🎯 Core Features
+- **📦 Packet parsing**: Reads hex-formatted fields from captured packet logs ([packets/tcp.txt](packets/tcp.txt), [packets/udp.txt](packets/udp.txt)).
+- **🔍 Protocol detection**: Uses the 23rd byte to identify TCP (`06`) vs UDP (`11`).
+- **🌐 Direction detection**: Compares packet MAC to local MAC to classify packets as outbound or inbound.
+- **⚙️ Rule engine**: INI-based policies for `Accept`, `Decline`, `Reject` per IP and port for inbound and outbound traffic.
+- **📊 Verbose tracing**: Prints per-packet decisions for source/destination endpoints and overall transmission success/failure.
 
-### Enhanced Features (New!)
-- **Comprehensive Logging**: Separate log files for accepted/rejected/declined packets with timestamped entries.
-- **Statistics Dashboard**: Real-time tracking of packet counts, suspicious IPs, protocol distribution with JSON/CSV export.
-- **Enhanced Rule Matching**: 
+### 🚀 Enhanced Features (New!)
+- **📝 Comprehensive Logging**: Separate log files for accepted/rejected/declined packets with timestamped entries.
+- **📊 Statistics Dashboard**: Real-time tracking of packet counts, suspicious IPs, protocol distribution with JSON/CSV export.
+- **🎯 Enhanced Rule Matching**: 
   - Port ranges (e.g., `80-8080`)
   - Wildcard IPs (e.g., `192.168.1.*`)
   - CIDR notation (e.g., `192.168.1.0/24`)
-- **Alert System**: Configurable alerts via console, email, or webhooks for suspicious activity.
-- **Dynamic Rule Reloading**: Automatically detects and reloads modified rule files without restart.
-- **CLI Interface**: Command-line options to toggle features and select packet files.
+- **🚨 Alert System**: Configurable alerts via console, email, or webhooks for suspicious activity.
+- **🔄 Dynamic Rule Reloading**: Automatically detects and reloads modified rule files without restart.
+- **💻 CLI Interface**: Command-line options to toggle features and select packet files.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Language**: Python 3.8+ (tested on Windows)
-- **Core Libraries**: Python Standard Library
+- **🐍 Language**: Python 3.8+ (tested on Windows)
+- **📚 Core Libraries**: Python Standard Library
   - `configparser` - INI file parsing
   - `ipaddress` - CIDR and IP network handling
   - `logging` - File and console logging
   - `argparse` - CLI argument parsing
   - `json`, `csv` - Statistics export
   - `smtplib`, `email` - Email alerts
-- **Optional Dependencies**:
+- **📦 Optional Dependencies**:
   - `requests` - Webhook alerts (install via `pip install -r requirements.txt`)
-- **Data**: Packet captures saved to text files in `packets/` (prepared with Wireshark)
+- **💾 Data**: Packet captures saved to text files in `packets/` (prepared with Wireshark)
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 main.py                 # Entrypoint with CLI argument parsing
@@ -68,7 +68,7 @@ README.md               # This document
 setup.py                # Packaging scaffold
 ```
 
-## How It Works
+## ⚡ How It Works
 
 1. Capture traffic with Wireshark and export key fields to text (see `packets/`).
 2. Parse lines into an array of hex bytes in `src/core.py`:
@@ -83,7 +83,7 @@ setup.py                # Packaging scaffold
 	- Ports are comma-separated per IP. Returns one of `Accept | Decline | Reject | No rule associated`.
 5. A transmission succeeds only if both source and destination endpoints return `Accept` under the applicable direction.
 
-## Setup (Windows)
+## 🚀 Setup (Windows)
 
 ### Requirements
 
@@ -108,7 +108,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Run the Firewall
+## ▶️ Run the Firewall
 
 ### Basic Usage
 
@@ -147,7 +147,7 @@ The firewall generates:
 - If you see many "No rule associated" messages, add IP/port entries to the INI files.
 - Press `Ctrl+C` to stop the firewall and view the final summary.
 
-## Configuration
+## ⚙️ Configuration
 
 ### Rule Files
 
@@ -211,7 +211,7 @@ Edit [src/alert_config.json](src/alert_config.json) to configure alerts:
 
 Rule files are automatically reloaded when modified - no need to restart the firewall!
 
-## Proofs
+## ✅ Proofs
 
 Screenshots (from `images/`):
 
@@ -239,7 +239,7 @@ Packet transmission unsuccessfull!!! Packet Dropped
 
 These outputs reflect the rule engine decisions given the current INI configuration. Adding the relevant IP/port entries under `Accepting ip` will change decisions to `Accept` and result in successful transmission messages.
 
-## Customization & Extensibility
+## 🎨 Customization & Extensibility
 
 - Update `inbound rules.ini` and `outbound rules.ini` to reflect your environment.
 - Modify `src/core.py` to adjust parsing if your capture format differs.
@@ -247,7 +247,7 @@ These outputs reflect the rule engine decisions given the current INI configurat
 - Configure `alert_config.json` to enable email or webhook notifications.
 - Export statistics periodically for trend analysis.
 
-## New Features Summary
+## 📋 New Features Summary
 
 | Feature | Description | File |
 |---------|-------------|------|
@@ -258,7 +258,7 @@ These outputs reflect the rule engine decisions given the current INI configurat
 | Dynamic Reload | Auto-reload rule files when modified | [rule_engine.py](src/rule_engine.py) |
 | CLI | Command-line options to toggle features | [main.py](main.py) |
 
-## Known Limitations
+## ⚠️ Known Limitations
 
 - Packet text format must match the expected positions; malformed lines may cause parsing errors (e.g., `IndexError`). Trim or standardize your captures if needed.
 - The demo currently reads `packets/tcp.txt` in `main.py`. UDP handling is implemented in `src` but not wired in the demo entry.
