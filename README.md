@@ -9,23 +9,36 @@ This project implements a simple, rules-driven software firewall in Python. It p
 
 ## ✨ Features
 
-### 🎯 Core Features
-- **📦 Packet parsing**: Reads hex-formatted fields from captured packet logs ([packets/tcp.txt](packets/tcp.txt), [packets/udp.txt](packets/udp.txt)).
-- **🔍 Protocol detection**: Uses the 23rd byte to identify TCP (`06`) vs UDP (`11`).
-- **🌐 Direction detection**: Compares packet MAC to local MAC to classify packets as outbound or inbound.
-- **⚙️ Rule engine**: INI-based policies for `Accept`, `Decline`, `Reject` per IP and port for inbound and outbound traffic.
-- **📊 Verbose tracing**: Prints per-packet decisions for source/destination endpoints and overall transmission success/failure.
+- **🔍 Intelligent Packet Analysis**
+  - Hex-formatted packet parsing from captured logs (TCP/UDP)
+  - Automatic protocol detection via byte inspection
+  - MAC-based direction classification (inbound/outbound)
+  - Real-time packet-by-packet decision tracing
 
-### 🚀 Enhanced Features (New!)
-- **📝 Comprehensive Logging**: Separate log files for accepted/rejected/declined packets with timestamped entries.
-- **📊 Statistics Dashboard**: Real-time tracking of packet counts, suspicious IPs, protocol distribution with JSON/CSV export.
-- **🎯 Enhanced Rule Matching**: 
-  - Port ranges (e.g., `80-8080`)
-  - Wildcard IPs (e.g., `192.168.1.*`)
-  - CIDR notation (e.g., `192.168.1.0/24`)
-- **🚨 Alert System**: Configurable alerts via console, email, or webhooks for suspicious activity.
-- **🔄 Dynamic Rule Reloading**: Automatically detects and reloads modified rule files without restart.
-- **💻 CLI Interface**: Command-line options to toggle features and select packet files.
+- **🎯 Advanced Rule Engine**
+  - INI-based policy configuration with `Accept`, `Decline`, `Reject` actions
+  - Port ranges support (e.g., `8000-9000`)
+  - Wildcard IP matching (e.g., `192.168.1.*`)
+  - CIDR notation for network blocks (e.g., `10.0.0.0/24`)
+  - Dynamic rule reloading without restart
+
+- **📊 Comprehensive Monitoring**
+  - Timestamped logging with separate files for accepted/rejected/declined packets
+  - Real-time statistics tracking by IP, port, and protocol
+  - Suspicious IP detection and tracking
+  - JSON/CSV export for trend analysis
+
+- **🚨 Smart Alerting**
+  - Configurable threshold-based alerts (default: 10 blocks)
+  - Multiple notification channels: console, email (SMTP), webhooks
+  - Automatic suspicious activity detection
+  - Customizable via JSON configuration
+
+- **💻 Flexible CLI**
+  - Process TCP or UDP packets on demand
+  - Custom packet file support
+  - Toggle features individually (logging, stats, alerts)
+  - Full help documentation built-in
 
 ## 🛠️ Tech Stack
 
