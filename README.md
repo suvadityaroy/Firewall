@@ -1,6 +1,6 @@
 # Design and Implement a Firewall
 
-In this assignment we have implemented a firewall. 
+In this assignment we have implemented a firewall using Python programming language.
 
 A firewall is a network security device that monitors incoming and outgoing network traffic and decides whether to allow or block specific traffic based on a defined set of security rules.
 Firewalls have been a first line of defense in network security for over 25 years. They establish a barrier between secured and controlled internal networks that can be trusted and untrusted outside networks, such as the Internet. 
