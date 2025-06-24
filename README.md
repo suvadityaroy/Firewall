@@ -1,4 +1,4 @@
-# Design and Implemented a Firewall
+# Design and Implement a Firewall
 
 In this assignment we have implemented a firewall using Python programming language.
 
