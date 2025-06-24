@@ -1,252 +1,97 @@
-# 🔥 Firewall
+# Project Title
 
-![Last Commit](https://img.shields.io/github/last-commit/suvadityaroy/Firewall?style=for-the-badge)
-![Latest Tag](https://img.shields.io/github/v/tag/suvadityaroy/Firewall?sort=semver&style=for-the-badge)
-![Repo Size](https://img.shields.io/github/repo-size/suvadityaroy/Firewall?style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge)
+Firewall - Rule-Based Packet Filtering System
 
-This project implements a simple, rules-driven software firewall in Python. It parses captured TCP/UDP packets, determines direction (inbound/outbound) via MAC address, and applies policy from INI configuration to accept, decline, or reject traffic.
+## Description / Overview
 
-## ✨ Features
+Firewall is a Python-based packet filtering project that simulates core firewall decision logic using configurable inbound and outbound policies. The system parses TCP and UDP packet capture data, classifies traffic direction, and evaluates each packet against rule definitions to determine whether it should be accepted, declined, or rejected.
 
-- **🔍 Smart Packet Analysis** - TCP/UDP protocol detection, MAC-based direction classification, real-time tracing
-- **🎯 Advanced Rules** - Port ranges, wildcards, CIDR notation, dynamic reloading
-- **📊 Monitoring & Stats** - Timestamped logs, suspicious IP tracking, JSON/CSV export
-- **🚨 Alerts** - Console/email/webhook notifications for suspicious activity
-- **💻 CLI Interface** - Toggle features, process TCP/UDP, custom packet files
+This project is structured as a resume-ready security engineering implementation focused on modular design, traceability, and operational visibility.
 
-## 🛠️ Tech Stack
+## Features
 
-- **🐍 Language**: Python 3.8+ (tested on Windows)
-- **📚 Core Libraries**: Python Standard Library
-  - `configparser` - INI file parsing
-  - `ipaddress` - CIDR and IP network handling
-  - `logging` - File and console logging
-  - `argparse` - CLI argument parsing
-  - `json`, `csv` - Statistics export
-  - `smtplib`, `email` - Email alerts
-- **📦 Optional Dependencies**:
-  - `requests` - Webhook alerts (install via `pip install -r requirements.txt`)
-- **💾 Data**: Packet captures saved to text files in `packets/` (prepared with Wireshark)
+- Processes TCP and UDP packet records from capture files
+- Classifies inbound and outbound traffic using MAC-based direction checks
+- Applies policy decisions using INI-driven rule sets
+- Supports exact IP matching, wildcard patterns, CIDR blocks, and port ranges
+- Produces packet decision outputs (Accept, Decline, Reject)
+- Generates logging artifacts for traffic outcomes
+- Tracks packet and IP statistics with JSON and CSV export support
+- Supports alert channels through console, email, and webhook configuration
 
-## 📁 Project Structure
+## Tech Stack
 
+- Language: Python 3
+- Core Modules: `argparse`, `configparser`, `ipaddress`, `logging`, `json`, `csv`, `smtplib`, `email`
+- Optional Dependency: `requests` for webhook alerts
+- Configuration Formats: INI (rule policies), JSON (alert configuration)
+- Input Source: Packet capture text files
+
+## Architecture / System Design
+
+The solution follows a modular processing pipeline:
+
+1. Packet input is read from capture files.
+2. Protocol-specific fields are parsed into packet models.
+3. Traffic direction is determined through MAC comparison.
+4. Rule engine validates source and destination endpoints against policy files.
+5. Decision layer returns packet outcome and routes side effects.
+6. Observability components write logs, maintain statistics, and trigger alerts.
+
+### Architecture Flowchart Diagram
+
+```mermaid
+flowchart TD
+    A[Packet Capture Files] --> B[Packet Parser]
+    B --> C{Protocol Detector}
+    C -->|TCP| D[TCP Packet Model]
+    C -->|UDP| E[UDP Packet Model]
+    D --> F[Direction Classifier MAC Check]
+    E --> F
+    F --> G[Rule Engine Policy Evaluation]
+    G --> H[Decision Layer Accept Decline Reject]
+    H --> I[Logger]
+    H --> J[Statistics Exporter JSON CSV]
+    H --> K[Alert Service Console Email Webhook]
 ```
-main.py                 # Entrypoint with CLI argument parsing
-src/
-  core.py               # Main processing loop with feature integration
-  rule_engine.py        # Enhanced rule matching (wildcards, CIDR, ranges)
-  logger.py             # Logging system for file outputs
-  statistics.py         # Statistics tracking and export
-  alerts.py             # Alert system (console, email, webhook)
-  util.py               # Helpers: hex→IP, hex→port, MAC comparison
-  tcp_packet.py         # TCP packet model
-  udp_packet.py         # UDP packet model
-  inbound rules.ini     # Inbound policy configuration
-  outbound rules.ini    # Outbound policy configuration
-  alert_config.json     # Alert system configuration
-packets/
-  tcp.txt               # Sample TCP capture (hex-separated fields)
-  udp.txt               # Sample UDP capture
-images/                 # Screenshots and diagrams
-logs/                   # Generated log files (created at runtime)
-stats/                  # Generated statistics files (created at runtime)
-requirements.txt        # Python dependencies
-README.md               # This document
-setup.py                # Packaging scaffold
+
+The codebase is split by responsibility to keep packet parsing, rule evaluation, observability, and alerts independently maintainable.
+
+## Installation & Setup
+
+1. Clone the repository.
+
+```powershell
+git clone https://github.com/suvadityaroy/Firewall.git
+cd Firewall
 ```
 
-## ⚡ How It Works
+2. Navigate to the project folder if already cloned locally.
 
-1. Capture traffic with Wireshark and export key fields to text (see `packets/`).
-2. Parse lines into an array of hex bytes in `src/core.py`:
-	- Byte 23 → protocol (`06` = TCP, `11` = UDP).
-	- Bytes 26–29 → source IP; 30–33 → destination IP.
-	- Bytes 34–35 → source port; 36–37 → destination port.
-3. Determine direction with `src/util.py:isSrc()` by comparing the packet MAC with the local MAC:
-	- Match → packet is outbound (apply `outbound rules.ini`).
-	- No match → packet is inbound (apply `inbound rules.ini`).
-4. Evaluate policy in `src/rule_engine.py`:
-	- Looks up IP in `Accepting ip`, `Declining ip`, `Rejecting ip` sections.
-	- Ports are comma-separated per IP. Returns one of `Accept | Decline | Reject | No rule associated`.
-5. A transmission succeeds only if both source and destination endpoints return `Accept` under the applicable direction.
-
-## 🚀 Setup (Windows)
-
-### Requirements
-
-- Python 3.8+ installed and available in PATH
-- PowerShell (default on Windows)
-
-### Installation
-
-1. Clone or download the repository:
 ```powershell
 cd d:\project\Firewall
 ```
 
-2. (Optional) Create a virtual environment:
+3. Create and activate a virtual environment.
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-3. Install optional dependencies (for webhook alerts):
+4. Install dependencies.
+
 ```powershell
 pip install -r requirements.txt
 ```
 
-## ▶️ Run the Firewall
-
-### Basic Usage
+5. Run the application.
 
 ```powershell
-cd d:\project\Firewall
-python main.py                    # Run with TCP packets (default)
+python main.py
 ```
 
-### Advanced Options
+## Author / Contact
 
-```powershell
-python main.py --udp              # Process UDP packets
-python main.py --file packets/custom.txt  # Use custom packet file
-python main.py --no-logging       # Disable file logging
-python main.py --no-stats         # Disable statistics
-python main.py --no-alerts        # Disable alert system
-python main.py --help             # Show all options
-```
-
-### Output
-
-The firewall generates:
-- **Console output**: Real-time packet decisions
-- **Log files** (in `logs/`): 
-  - `firewall_TIMESTAMP.log` - All events
-  - `accepted_TIMESTAMP.log` - Accepted packets only
-  - `rejected_TIMESTAMP.log` - Rejected packets only
-  - `declined_TIMESTAMP.log` - Declined packets only
-- **Statistics** (in `stats/`):
-  - `firewall_stats.json` - Detailed statistics
-  - `firewall_stats.csv` - IP-based statistics
-- **Alerts**: Console notifications for suspicious activity (10+ blocks)
-
-### Notes
-
-- If you see many "No rule associated" messages, add IP/port entries to the INI files.
-- Press `Ctrl+C` to stop the firewall and view the final summary.
-
-## ⚙️ Configuration
-
-### Rule Files
-
-- **Inbound policy**: [src/inbound rules.ini](src/inbound%20rules.ini)
-- **Outbound policy**: [src/outbound rules.ini](src/outbound%20rules.ini)
-
-#### Rule Sections
-
-- `[Accepting ip]`: Allowed ports for each IP
-- `[Declining ip]`: Explicitly declined ports for each IP
-- `[Rejecting ip]`: Explicitly rejected ports for each IP
-
-#### Enhanced Syntax
-
-```ini
-[Accepting ip]
-# Exact IP with specific ports
-192.168.1.6 = 63449,55173
-
-# Port range (NEW!)
-192.168.1.10 = 8000-9000
-
-# Wildcard IP (NEW!)
-192.168.1.* = 80,443
-
-# CIDR notation (NEW!)
-10.0.0.0/24 = 22,80,443
-
-[Declining ip]
-192.168.1.6 = 63325,57762
-
-[Rejecting ip]
-192.168.1.6 = 63439,59051,63450
-```
-
-### Alert Configuration
-
-Edit [src/alert_config.json](src/alert_config.json) to configure alerts:
-
-```json
-{
-  "enabled": true,
-  "threshold": 10,
-  "email": {
-    "enabled": false,
-    "smtp_server": "smtp.gmail.com",
-    "smtp_port": 587,
-    "from_email": "your-email@gmail.com",
-    "to_email": "alert-recipient@gmail.com",
-    "password": "your-app-password"
-  },
-  "webhook": {
-    "enabled": false,
-    "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
-  },
-  "console_alerts": true
-}
-```
-
-### Dynamic Reloading
-
-Rule files are automatically reloaded when modified - no need to restart the firewall!
-
-## ✅ Proofs
-
-Screenshots (from `images/`):
-
-- Protocol detection via byte 23: ![TCP vs UDP](images/check%20for%20TCP%20and%20UDP.PNG)
-- Direction by MAC address: ![Inbound vs Outbound](images/check%20for%20MAC.PNG)
-- Wireshark capture sample: ![Wireshark](images/tcp_wireshark.PNG)
-- Capture text sample: ![txt](images/tcp_notepad.PNG)
-- Flow overview: ![Explanation](images/explanation.png)
-
-Sample console output (real run):
-
-```
-TCP packet: Src_ip:74.125.68.188 Dst_ip:192.168.1.6 Src_port:443 Dst_port:63323
-packet comes to our server..
-source ip:74.125.68.188 and port:443 will No rule associated!!!! Please assign a rule
-Destination ip:192.168.1.6 and port:63323 will No rule associated!!!! Please assign a rule
-Packet transmission unsuccessfull!!! Packet Dropped
-
-TCP packet: Src_ip:192.168.1.6 Dst_ip:117.18.232.240 Src_port:63459 Dst_port:80
-packet going out of our server..
-source ip:192.168.1.6 and port:63459 will No rule associated!!!! Please assign a rule
-Destination ip:117.18.232.240 and port:80 will No rule associated!!!! Please assign a rule
-Packet transmission unsuccessfull!!! Packet Dropped
-```
-
-These outputs reflect the rule engine decisions given the current INI configuration. Adding the relevant IP/port entries under `Accepting ip` will change decisions to `Accept` and result in successful transmission messages.
-
-## 🎨 Customization & Extensibility
-
-- Update `inbound rules.ini` and `outbound rules.ini` to reflect your environment.
-- Modify `src/core.py` to adjust parsing if your capture format differs.
-- Extend `tcp_packet.py` / `udp_packet.py` with additional headers if needed.
-- Configure `alert_config.json` to enable email or webhook notifications.
-- Export statistics periodically for trend analysis.
-
-## 📋 New Features Summary
-
-| Feature | Description | File |
-|---------|-------------|------|
-| Logging | Timestamped logs with separate files for accepted/rejected/declined packets | [logger.py](src/logger.py) |
-| Statistics | Track packet counts, IPs, ports with JSON/CSV export | [statistics.py](src/statistics.py) |
-| Enhanced Rules | Port ranges, wildcards (`*`), CIDR notation (`/24`) | [rule_engine.py](src/rule_engine.py) |
-| Alerts | Console/email/webhook notifications for suspicious IPs | [alerts.py](src/alerts.py) |
-| Dynamic Reload | Auto-reload rule files when modified | [rule_engine.py](src/rule_engine.py) |
-| CLI | Command-line options to toggle features | [main.py](main.py) |
-
-## ⚠️ Known Limitations
-
-- Packet text format must match the expected positions; malformed lines may cause parsing errors (e.g., `IndexError`). Trim or standardize your captures if needed.
-- The demo currently reads `packets/tcp.txt` in `main.py`. UDP handling is implemented in `src` but not wired in the demo entry.
+Author: Suvaditya Roy
+Repository: https://github.com/suvadityaroy/Firewall.git
